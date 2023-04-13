@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Typography } from "@mui/material";
+import {
+  Typography,
+  Card,
+  CardContent,
+  Box,
+  CircularProgress,
+} from "@mui/material";
 
 import { io, Socket } from "socket.io-client";
 
@@ -18,17 +24,42 @@ export const User = () => {
   }, []);
 
   if (!client) {
-    return <Typography>There's no one client connected at moment</Typography>;
+    return (
+      <Card sx={{ width: 400, height: 200 }}>
+        <CardContent>
+          <Box
+            sx={{ display: "flex", height: 160 }}
+            alignItems="center"
+            justifyContent="center"
+          >
+            <CircularProgress />
+          </Box>
+        </CardContent>
+      </Card>
+    );
   }
 
-  return <Typography>Client Connected: {client?.first_name}</Typography>;
+  return (
+    <Card sx={{ width: 400, height: 200, position: "relative" }}>
+      <CardContent>
+        <Typography variant="subtitle2" align="right">
+          {client?.client_id}
+        </Typography>
+        <Box position="absolute" bottom="15px">
+          <Typography variant="h5">{client?.first_name}</Typography>
+          <Typography variant="caption">{client?.job_descriptor}</Typography>
+          <Typography variant="body2">{client?.job}</Typography>
+        </Box>
+      </CardContent>
+    </Card>
+  );
 };
 
 type ClientProp = {
   client_id: string;
   first_name: string;
   job: string;
-  job_description: string;
+  job_descriptor: string;
 };
 
 interface ServerToClientEvents {
