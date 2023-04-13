@@ -1,38 +1,36 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Grid } from "@mui/material";
+import { CssBaseline, GlobalStyles } from "@mui/material";
 
-import { Home } from "./pages/home";
-import { User } from "./pages/user";
-import { Table } from "./pages/table";
+import { HomePage } from "./pages/home";
+import { UserPage } from "./pages/user";
+import { TablePage } from "./pages/table";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: <HomePage />,
   },
   {
     path: "/user",
-    element: <User />,
+    element: <UserPage />,
   },
   {
     path: "/table",
-    element: <Table />,
+    element: <TablePage />,
   },
 ]);
 
 const App = () => {
   return (
     <React.StrictMode>
-      <Grid
-        container
-        alignItems="center"
-        justifyContent="center"
-        minHeight="100vh"
-        sx={{ backgroundColor: "#333" }}
-      >
-        <RouterProvider router={router} />
-      </Grid>
+      <CssBaseline />
+      <GlobalStyles
+        styles={{
+          body: { backgroundColor: "#333" },
+        }}
+      />
+      <RouterProvider router={router} />
     </React.StrictMode>
   );
 };
