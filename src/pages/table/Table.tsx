@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import {
   Box,
   Table,
@@ -17,7 +17,6 @@ const ENDPOINT = `http://${window.location.hostname}:3003`;
 
 export const TablePage = () => {
   const socketIo = useRef<Socket<ServerToClientEvents> | null>(null);
-  const [newData, setNewData] = useState<MarketDataProp>();
   const [dataTable, setDataTable] = useState<MarketDataProp[]>([]);
   const [searchParam, setSearchParam] = useState<string>();
 
@@ -25,28 +24,25 @@ export const TablePage = () => {
     setSearchParam(event.target.value);
   };
 
+  const addNewData = useCallback(
+    (data: MarketDataProp) => {
+      setDataTable([...dataTable, data]);
+    },
+    [dataTable]
+  );
+
   useEffect(() => {
     socketIo.current = io(ENDPOINT);
 
     socketIo.current.on("market-data", (data: MarketDataProp) => {
       console.log(data);
-      setNewData(data);
+      addNewData(data);
     });
 
     return () => {
       socketIo.current?.disconnect();
     };
-  }, []);
-
-  useEffect(() => {
-    if (newData) {
-      setDataTable((prev) => {
-        const updatedDataTable = [...prev];
-        updatedDataTable.push(newData);
-        return updatedDataTable;
-      });
-    }
-  }, [newData]);
+  }, [addNewData]);
 
   return (
     <Box sx={{ p: 8 }}>
