@@ -1,5 +1,4 @@
-import { Link } from "react-router-dom";
-import { Grid, Typography, Button, Box } from "@mui/material";
+import { Grid, Typography, Button, Box, Link } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 export const HomePage = () => {
@@ -15,10 +14,10 @@ export const HomePage = () => {
           Tech Challenge
         </Typography>
         <Box flexDirection="row">
-          <Link to={"/user"} style={{ textDecoration: "none" }}>
+          <Link href="/user" style={{ textDecoration: "none" }}>
             <StyledButton variant="outlined">User</StyledButton>
           </Link>
-          <Link to={"/table"} style={{ textDecoration: "none" }}>
+          <Link href="/table" style={{ textDecoration: "none" }}>
             <StyledButton variant="outlined">Table</StyledButton>
           </Link>
         </Box>

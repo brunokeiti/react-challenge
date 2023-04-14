@@ -49,7 +49,7 @@ export const TablePage = () => {
   }, [newData]);
 
   return (
-    <Box sx={{ p: 6 }}>
+    <Box sx={{ p: 8 }}>
       <StyledTextField
         size="small"
         variant="outlined"
