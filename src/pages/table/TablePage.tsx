@@ -4,14 +4,14 @@ import {
   Table,
   TableBody,
   TableContainer,
-  TableCell,
   TableHead,
   TableRow,
-  TextField,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import { io, Socket } from "socket.io-client";
+import { StyledTableCell, StyledTextField } from "./styled";
+import TableMemo from "./TableMemo";
+import { MarketDataProp, ServerToClientEvents } from "./interfaces";
 
 const ENDPOINT = `http://${window.location.hostname}:3003`;
 
@@ -69,66 +69,10 @@ export const TablePage = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {dataTable.map((row, index) => {
-              if (
-                searchParam &&
-                searchParam?.length > 0 &&
-                !Object.values(row).find((elem) =>
-                  elem.toLowerCase().match(searchParam.toLowerCase())
-                )
-              ) {
-                return null;
-              }
-
-              return (
-                <TableRow
-                  key={index}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <StyledTableCell component="th" scope="row">
-                    {row.account_name}
-                  </StyledTableCell>
-                  <StyledTableCell>{row.amount}</StyledTableCell>
-                  <StyledTableCell>{row.currency_name}</StyledTableCell>
-                  <StyledTableCell>{row.transaction_type}</StyledTableCell>
-                  <StyledTableCell>
-                    {row.transaction_description}
-                  </StyledTableCell>
-                  <StyledTableCell>{row.credit_card_number}</StyledTableCell>
-                  <StyledTableCell>{row.credit_card_issuer}</StyledTableCell>
-                  <StyledTableCell>{row.credit_card_cvv}</StyledTableCell>
-                </TableRow>
-              );
-            })}
+            <TableMemo dataTable={dataTable} searchParam={searchParam} />
           </TableBody>
         </Table>
       </TableContainer>
     </Box>
   );
 };
-
-const StyledTextField = styled(TextField)({
-  marginBottom: "1rem",
-  "> div": {
-    backgroundColor: "#fff",
-  },
-});
-
-const StyledTableCell = styled(TableCell)({
-  color: "#fff",
-});
-
-type MarketDataProp = {
-  account_name: string;
-  amount: string;
-  credit_card_cvv: string;
-  credit_card_issuer: string;
-  credit_card_number: string;
-  currency_name: string;
-  transaction_description: string;
-  transaction_type: string;
-};
-
-interface ServerToClientEvents {
-  "market-data": (data: MarketDataProp) => void;
-}
