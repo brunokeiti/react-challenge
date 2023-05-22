@@ -14,6 +14,5 @@ export interface ServerToClientEvents {
 }
 
 export interface TableMemoProps {
-  dataTable: MarketDataProp[];
-  searchParam: string | undefined;
+  row: MarketDataProp;
 }

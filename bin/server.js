@@ -25,10 +25,7 @@ const io = socket(server, {
 
 let intervalId = null;
 
-const recursiveInterval = (
-  skt = null,
-  intervalTime = faker.random.numeric(4)
-) => {
+const recursiveInterval = (skt = null, intervalTime = 5000) => {
   intervalId = setInterval(() => {
     intervalId && clearInterval(intervalId);
 

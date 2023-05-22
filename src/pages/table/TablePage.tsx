@@ -10,7 +10,7 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import { io, Socket } from "socket.io-client";
 import { StyledTableCell, StyledTextField } from "./styled";
-import TableMemo from "./TableMemo";
+import TableRowMemo from "./TableRowMemo";
 import { MarketDataProp, ServerToClientEvents } from "./interfaces";
 
 const ENDPOINT = `http://${window.location.hostname}:3003`;
@@ -69,7 +69,23 @@ export const TablePage = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableMemo dataTable={dataTable} searchParam={searchParam} />
+            {dataTable.map((row) => {
+              if (
+                searchParam &&
+                searchParam?.length > 0 &&
+                !Object.values(row).find((elem) =>
+                  elem.toLowerCase().match(searchParam.toLowerCase())
+                )
+              ) {
+                return null;
+              }
+              return (
+                <TableRowMemo
+                  row={row}
+                  key={`${row.credit_card_number}-${row.amount}`}
+                />
+              );
+            })}
           </TableBody>
         </Table>
       </TableContainer>
