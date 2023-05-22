@@ -23,12 +23,8 @@ const io = socket(server, {
   },
 });
 
-let intervalId = null;
-
 const recursiveInterval = (skt = null, intervalTime = 5000) => {
-  intervalId = setInterval(() => {
-    intervalId && clearInterval(intervalId);
-
+  setInterval(() => {
     skt.emit("market-data", {
       account_name: faker.finance.accountName(),
       transaction_type: faker.finance.transactionType(),
@@ -39,8 +35,6 @@ const recursiveInterval = (skt = null, intervalTime = 5000) => {
       amount: faker.finance.amount(),
       currency_name: faker.finance.currencyName(),
     });
-
-    recursiveInterval(skt);
   }, intervalTime);
 };
 
