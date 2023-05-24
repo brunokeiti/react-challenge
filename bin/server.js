@@ -23,7 +23,10 @@ const io = socket(server, {
   },
 });
 
-const recursiveInterval = (skt = null, intervalTime = 5000) => {
+const recursiveInterval = (
+  skt = null,
+  intervalTime = faker.random.numeric(4)
+) => {
   setInterval(() => {
     skt.emit("market-data", {
       account_name: faker.finance.accountName(),

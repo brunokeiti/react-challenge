@@ -6,7 +6,7 @@ import { UserPage } from "./pages/user";
 import { TablePage } from "./pages/table";
 import { NavDrawer } from "./components/navigation/NavDrawer";
 
-const router = createBrowserRouter([
+export const routerConfig = [
   {
     path: "/",
     element: <HomePage />,
@@ -19,7 +19,9 @@ const router = createBrowserRouter([
     path: "/table",
     element: <TablePage />,
   },
-]);
+];
+
+const router = createBrowserRouter(routerConfig);
 
 const App = () => {
   return (

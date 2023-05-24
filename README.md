@@ -1,4 +1,4 @@
-# Code Challange
+# Code Challenge
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -28,7 +28,8 @@ An example that you can use for guidance:
 </p>
 
 ### Must have:
-- use this repo as a boilerplate of your project 
+
+- use this repo as a boilerplate of your project
 
 - Use [Material-ui v5](https://mui.com/) for construct your components.
 
@@ -39,7 +40,7 @@ An example that you can use for guidance:
 ## Additional information
 
 - The backend is already built.
-- You can use it as a data source, the client will be connected to the socket in real time. 
+- You can use it as a data source, the client will be connected to the socket in real time.
 - You will receive in an interval of 0 and 10 seconds a new response with the financial data and you should use this information to build the table.
 
 JSON schema for market data:

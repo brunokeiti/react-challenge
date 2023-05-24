@@ -1,5 +1,19 @@
-import { render, screen } from "@testing-library/react";
+import { RouterProvider, createMemoryRouter } from "react-router-dom";
+import userEvent from "@testing-library/user-event";
+import { render, screen, waitFor } from "@testing-library/react";
+import { routerConfig } from "./App";
 
-test("An example", () => {
-  expect(1 + 1).toBe(2);
+it("Routes to a new route when button is clicked", async () => {
+  const router = createMemoryRouter(routerConfig, {
+    initialEntries: ["/"],
+  });
+
+  render(<RouterProvider router={router} />);
+  expect(router.state.location.pathname).toEqual("/");
+
+  await userEvent.click(screen.getByRole("link", { name: /User/i }));
+
+  await waitFor(() => {
+    expect(router.state.location.pathname).toEqual("/user");
+  });
 });

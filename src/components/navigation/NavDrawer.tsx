@@ -18,16 +18,20 @@ import BadgeOutlinedIcon from "@mui/icons-material/BadgeOutlined";
 
 export const NavDrawer = () => {
   const [drawer, setDrawer] = useState(false);
+  const handleOpen = () => {
+    setDrawer(true);
+  };
   return (
     <>
       <IconButton
-        onClick={() => setDrawer(true)}
+        onClick={handleOpen}
         sx={{
           position: "fixed",
           top: "0",
           left: "0",
           color: "#fff",
         }}
+        aria-label="open drawer"
       >
         <MenuIcon sx={{ fontSize: 40 }} />
       </IconButton>
@@ -35,7 +39,7 @@ export const NavDrawer = () => {
         <Box sx={{ width: "200px" }}>
           <List
             subheader={
-              <ListSubheader component="div">Tech Challenge</ListSubheader>
+              <ListSubheader component="div">Code Challenge</ListSubheader>
             }
           >
             <Link underline="none" href="/" color="inherit">
@@ -48,7 +52,7 @@ export const NavDrawer = () => {
                 </ListItemButton>
               </ListItem>
             </Link>
-            <Link underline="none" href="user" color="inherit">
+            <Link underline="none" href="/user" color="inherit">
               <ListItem disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
