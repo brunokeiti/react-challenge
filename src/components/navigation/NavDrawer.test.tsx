@@ -12,7 +12,10 @@ it("Open/Close drawer", async () => {
   expect(within(drawer).getByRole("link", { name: "User" })).toBeVisible();
   expect(within(drawer).getByRole("link", { name: "Table" })).toBeVisible();
   // eslint-disable-next-line testing-library/no-node-access
-  userEvent.click(drawer.firstChild); //MUI Drawer backdrop doesn't have a proper role or id
+  const backdrop = drawer.firstChild; // MUI backdrop doesn't have role, text or any type of ID
+  if (backdrop !== null) {
+    userEvent.click(backdrop as Element);
+  }
   await waitFor(() => {
     expect(drawer).not.toBeVisible();
   });
