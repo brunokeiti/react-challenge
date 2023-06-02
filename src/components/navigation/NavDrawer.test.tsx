@@ -2,9 +2,14 @@ import { render, screen, within, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import { NavDrawer } from "./NavDrawer";
+import TestProvider from "../../redux/utils/TestProvider";
 
 it("Open/Close drawer", async () => {
-  render(<NavDrawer />);
+  render(
+    <TestProvider>
+      <NavDrawer />
+    </TestProvider>
+  );
   expect(screen.getByLabelText("open drawer")).toBeVisible();
   userEvent.click(screen.getByLabelText("open drawer"));
   const drawer = screen.getByRole("presentation", { name: "" });

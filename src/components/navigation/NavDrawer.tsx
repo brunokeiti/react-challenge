@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
+import type { RootState } from "../../redux/store";
+import { useSelector, useDispatch } from "react-redux";
 import {
   Link,
   IconButton,
@@ -15,12 +17,20 @@ import MenuIcon from "@mui/icons-material/Menu";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
 import BadgeOutlinedIcon from "@mui/icons-material/BadgeOutlined";
+import { open, close } from "../../redux/drawer/drawerSlice";
 
 export const NavDrawer = () => {
-  const [drawer, setDrawer] = useState(false);
+  const isOpen = useSelector((state: RootState) => state.drawer.isOpen);
+  const dispatch = useDispatch();
+
   const handleOpen = () => {
-    setDrawer(true);
+    dispatch(open());
   };
+
+  const handleClose = () => {
+    dispatch(close());
+  };
+
   return (
     <>
       <IconButton
@@ -35,7 +45,7 @@ export const NavDrawer = () => {
       >
         <MenuIcon sx={{ fontSize: 40 }} />
       </IconButton>
-      <Drawer anchor="left" open={drawer} onClose={() => setDrawer(false)}>
+      <Drawer anchor="left" open={isOpen} onClose={handleClose}>
         <Box sx={{ width: "200px" }}>
           <List
             subheader={
