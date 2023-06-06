@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Grid,
   Typography,
@@ -7,22 +7,10 @@ import {
   Box,
   CircularProgress,
 } from "@mui/material";
-
-import { io, Socket } from "socket.io-client";
-
-const ENDPOINT = `http://${window.location.hostname}:3003`;
+import { useGetUserQuery } from "../../redux/services/user";
 
 export const UserPage = () => {
-  const [client, setClient] = useState<ClientProp>();
-
-  useEffect(() => {
-    const socket: Socket<ServerToClientEvents> = io(ENDPOINT);
-    socket.on("client-connected", (client) => client && setClient(client));
-
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+  const { data, error, isLoading } = useGetUserQuery();
 
   return (
     <Grid
@@ -33,7 +21,9 @@ export const UserPage = () => {
     >
       <Card sx={{ width: 400, height: 200, position: "relative" }}>
         <CardContent>
-          {!client && (
+          {error ? (
+            <h1>Oh no! Anyway...</h1>
+          ) : isLoading ? (
             <Box
               sx={{ display: "flex", height: 160 }}
               alignItems="center"
@@ -41,34 +31,22 @@ export const UserPage = () => {
             >
               <CircularProgress />
             </Box>
-          )}
-          {client && (
+          ) : data ? (
             <>
               <Typography variant="subtitle2" align="right">
-                {client?.client_id}
+                {data?.client_id}
               </Typography>
               <Box position="absolute" bottom="15px">
-                <Typography variant="h5">{client?.first_name}</Typography>
+                <Typography variant="h5">{data?.first_name}</Typography>
                 <Typography variant="caption">
-                  {client?.job_descriptor}
+                  {data?.job_descriptor}
                 </Typography>
-                <Typography variant="body2">{client?.job}</Typography>
+                <Typography variant="body2">{data?.job}</Typography>
               </Box>
             </>
-          )}
+          ) : null}
         </CardContent>
       </Card>
     </Grid>
   );
 };
-
-type ClientProp = {
-  client_id: string;
-  first_name: string;
-  job: string;
-  job_descriptor: string;
-};
-
-interface ServerToClientEvents {
-  "client-connected": (a: ClientProp) => void;
-}
