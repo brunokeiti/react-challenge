@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Table,
@@ -6,43 +6,19 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  CircularProgress,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { io, Socket } from "socket.io-client";
 import { StyledTableCell, StyledTextField } from "./styled";
+import { useGetMarketDataQuery } from "../../redux/services/marketData";
 import TableRowMemo from "./TableRowMemo";
-import { MarketDataProp, ServerToClientEvents } from "./interfaces";
-
-const ENDPOINT = `http://${window.location.hostname}:3003`;
 
 export const TablePage = () => {
-  const socketIo = useRef<Socket<ServerToClientEvents> | null>(null);
-  const [dataTable, setDataTable] = useState<MarketDataProp[]>([]);
   const [searchParam, setSearchParam] = useState<string>();
-
+  const { data, error, isLoading } = useGetMarketDataQuery();
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setSearchParam(event.target.value);
   };
-
-  const addNewData = useCallback(
-    (data: MarketDataProp) => {
-      setDataTable([...dataTable, data]);
-    },
-    [dataTable]
-  );
-
-  useEffect(() => {
-    socketIo.current = io(ENDPOINT);
-
-    socketIo.current.on("market-data", (data: MarketDataProp) => {
-      console.log(data);
-      addNewData(data);
-    });
-
-    return () => {
-      socketIo.current?.disconnect();
-    };
-  }, [addNewData]);
 
   return (
     <Box sx={{ p: 8 }}>
@@ -55,39 +31,51 @@ export const TablePage = () => {
         }}
       />
       <TableContainer>
-        <Table sx={{ minWidth: 650 }} size="small">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>Account Name</StyledTableCell>
-              <StyledTableCell>Amount</StyledTableCell>
-              <StyledTableCell>Currency Name</StyledTableCell>
-              <StyledTableCell>Transaction Type</StyledTableCell>
-              <StyledTableCell>Transaction Description</StyledTableCell>
-              <StyledTableCell>Credit Card Number</StyledTableCell>
-              <StyledTableCell>Credit Card Issuer</StyledTableCell>
-              <StyledTableCell>Credit Card CVV</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {dataTable.map((row) => {
-              if (
-                searchParam &&
-                searchParam?.length > 0 &&
-                !Object.values(row).find((elem) =>
-                  elem.toLowerCase().match(searchParam.toLowerCase())
-                )
-              ) {
-                return null;
-              }
-              return (
-                <TableRowMemo
-                  row={row}
-                  key={`${row.credit_card_number}-${row.amount}`}
-                />
-              );
-            })}
-          </TableBody>
-        </Table>
+        {error ? (
+          <h1>Oh no! Anyway...</h1>
+        ) : isLoading ? (
+          <Box
+            sx={{ display: "flex", height: 160 }}
+            alignItems="center"
+            justifyContent="center"
+          >
+            <CircularProgress />
+          </Box>
+        ) : data ? (
+          <Table sx={{ minWidth: 650 }} size="small">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Account Name</StyledTableCell>
+                <StyledTableCell>Amount</StyledTableCell>
+                <StyledTableCell>Currency Name</StyledTableCell>
+                <StyledTableCell>Transaction Type</StyledTableCell>
+                <StyledTableCell>Transaction Description</StyledTableCell>
+                <StyledTableCell>Credit Card Number</StyledTableCell>
+                <StyledTableCell>Credit Card Issuer</StyledTableCell>
+                <StyledTableCell>Credit Card CVV</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {data.map((row) => {
+                if (
+                  searchParam &&
+                  searchParam?.length > 0 &&
+                  !Object.values(row).find((elem) =>
+                    elem.toLowerCase().match(searchParam.toLowerCase())
+                  )
+                ) {
+                  return null;
+                }
+                return (
+                  <TableRowMemo
+                    row={row}
+                    key={`${row.credit_card_number}-${row.amount}`}
+                  />
+                );
+              })}
+            </TableBody>
+          </Table>
+        ) : null}
       </TableContainer>
     </Box>
   );

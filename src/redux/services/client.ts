@@ -7,7 +7,7 @@ export const clientApi = createApi({
   reducerPath: "clientApi",
   baseQuery: fetchBaseQuery({ baseUrl: ENDPOINT, credentials: "include" }),
   endpoints: (builder) => ({
-    getUser: builder.query<ClientProp, void>({
+    getClient: builder.query<ClientProp, void>({
       queryFn: () => ({
         data: {
           client_id: "",
@@ -39,7 +39,7 @@ export const clientApi = createApi({
   }),
 });
 
-export const { useGetUserQuery } = clientApi;
+export const { useGetClientQuery } = clientApi;
 
 type ClientProp = {
   client_id: string;

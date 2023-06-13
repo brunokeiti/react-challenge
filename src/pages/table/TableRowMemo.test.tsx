@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import TableRowMemo from "./TableRowMemo";
-import { MarketDataProp } from "./interfaces";
+import { MarketDataProp } from "../../redux/services/marketData";
 
 it("Render row info", async () => {
   const info: MarketDataProp = {

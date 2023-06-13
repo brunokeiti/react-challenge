@@ -7,10 +7,10 @@ import {
   Box,
   CircularProgress,
 } from "@mui/material";
-import { useGetUserQuery } from "../../redux/services/user";
+import { useGetClientQuery } from "../../redux/services/client";
 
 export const UserPage = () => {
-  const { data, error, isLoading } = useGetUserQuery();
+  const { data, error, isLoading } = useGetClientQuery();
 
   return (
     <Grid

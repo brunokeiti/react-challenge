@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import { TableRow } from "@mui/material";
 import { StyledTableCell } from "./styled";
-import { TableMemoProps } from "./interfaces";
+import { TableMemoProps } from "../../redux/services/marketData";
 
 const TableRowMemo = ({ row }: TableMemoProps) => {
   console.log(`test rerender: ${row.credit_card_number}-${row.amount}`);
