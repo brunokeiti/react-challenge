@@ -1,21 +1,23 @@
 # React Overengineering Challenge
 
-Originally this project was a test for an interview I did some time ago. Now I use this repo to pratice, play around and test new libs. Scroll down to `Code Challenge` to read the original description of this test.
+Originally, this project was a test for an interview I did some time ago. Now, I use this repo to pratice, play around and test new libs. Click [here](#code-challenge) to read the original description of this test.
 
 ## List of overengineered stuff:
 
-- Added a Home (there's two routes in this test, but I wanted to have an initial page)
-- Added a navigation drawer (now there's three pages, might as well add a way to navigate properly)
+- Added a Home (there are two routes in this test, but I wanted to have an initial page)
+- Added a navigation drawer (now there are three pages, so I thought it would be better to add a proper way to navigate)
 - Changed almost everything to Typescript (since the test gave some JSON schema beforehand, I thought I should use it to create interfaces)
 - Added Redux (just to manage the drawer state)
 - Added RTK Query (it's pretty cool)
 
 ## To do list:
 
-- Some cool CSS effects to the table?
+- Implement some cool CSS effects to the table
 - Finish all unit tests
 - Add Cypress
 - Add Storybook
+
+---
 
 # Code Challenge
 
